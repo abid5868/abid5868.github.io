@@ -1,9 +1,5 @@
 // scripts/scene1.js
 function createScene1() {
-    const margin = {top: 50, right: 20, bottom: 70, left: 60};
-    const width = 700 - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
-
     const svg = d3.select("#scene-container")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -67,12 +63,12 @@ function createScene1() {
 
         svg.append("text")
             .attr("x", width / 2)
-            .attr("y", -20)
+            .attr("y", -margin.top / 2)
             .attr("text-anchor", "middle")
-            .style("font-size", "16px")
+            .style("font-size", "20px")
             .style("font-weight", "bold")
             .text("Top 10 Car Makes by Average Highway MPG");
-
+            
         // Annotation
         svg.append("text")
             .attr("class", "annotation")

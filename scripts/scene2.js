@@ -1,9 +1,5 @@
 // scripts/scene2.js
 function createScene2() {
-    const margin = {top: 50, right: 20, bottom: 70, left: 60};
-    const width = 700 - margin.left - margin.right;
-    const height = 400 - margin.top - margin.bottom;
-
     const svg = d3.select("#scene-container")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -11,17 +7,10 @@ function createScene2() {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // Create a tooltip div
     const tooltip = d3.select("#scene-container")
         .append("div")
         .attr("class", "tooltip")
-        .style("opacity", 0)
-        .style("position", "absolute")
-        .style("background-color", "white")
-        .style("border", "solid")
-        .style("border-width", "1px")
-        .style("border-radius", "5px")
-        .style("padding", "10px");
+        .style("opacity", 0);
 
     d3.csv("data/cars2017.csv").then(function(data) {
         const fuelTypes = Array.from(new Set(data.map(d => d.Fuel)));
@@ -50,7 +39,7 @@ function createScene2() {
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", .9);
-                tooltip.html(`Make: ${d.Make}<br>Model: ${d.Model}<br>Fuel: ${d.Fuel}<br>Highway MPG: ${d.AverageHighwayMPG}<br>City MPG: ${d.AverageCityMPG}`)
+                tooltip.html(`Make: ${d.Make}<br>Fuel: ${d.Fuel}<br>Highway MPG: ${d.AverageHighwayMPG}<br>City MPG: ${d.AverageCityMPG}`)
                     .style("left", (event.pageX + 5) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })
@@ -82,11 +71,11 @@ function createScene2() {
             .attr("y", -margin.left + 20)
             .text("Average City MPG");
 
-        svg.append("text")
+            svg.append("text")
             .attr("x", width / 2)
-            .attr("y", -20)
+            .attr("y", -margin.top / 2)
             .attr("text-anchor", "middle")
-            .style("font-size", "16px")
+            .style("font-size", "20px")
             .style("font-weight", "bold")
             .text("City vs Highway MPG by Fuel Type");
 
