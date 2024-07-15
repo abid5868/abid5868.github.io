@@ -1,44 +1,40 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
-}
-
-#container {
-    width: 80%;
-    margin: 0 auto;
     padding: 20px;
 }
 
-.scene {
-    margin-bottom: 40px;
+#visualization-container {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-.navigation {
+#scene-container {
+    margin-bottom: 20px;
+}
+
+.axis-label {
+    font-size: 12px;
+}
+
+.bar {
+    fill: steelblue;
+}
+
+.bar:hover {
+    fill: brown;
+}
+
+.annotation {
+    font-size: 12px;
+}
+
+#navigation {
     text-align: center;
-    margin-top: 20px;
 }
 
 button {
     padding: 10px 20px;
-    margin: 0 10px;
     font-size: 16px;
-    cursor: pointer;
-}
-
-.sample-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.sample-table th,
-.sample-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-}
-
-.sample-table th {
-    background-color: #f2f2f2;
+    margin: 0 10px;
 }

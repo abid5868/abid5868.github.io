@@ -1,38 +1,92 @@
-function createScene1(data) {
-    const scene = d3.select("#scene1");
-    scene.html(""); // Clear previous content
+// scripts/scene1.js
+function createScene1() {
+    const margin = {top: 50, right: 20, bottom: 70, left: 60};
+    const width = 700 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
 
-    scene.append("h2").text("Introduction to the Dataset");
+    const svg = d3.select("#scene-container")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    scene.append("p").text("This dataset contains information on various cars from the year 2017, including their prices, horsepower, and fuel efficiency (MPG). Here are some sample entries:");
+    d3.csv("data/cars2017.csv").then(function(data) {
+        const groupedData = d3.rollup(data, 
+            v => d3.mean(v, d => +d.AverageHighwayMPG),
+            d => d.Make
+        );
 
-    // Display sample data
-    const sampleData = data.slice(0, 5); // Display the first 5 entries as samples
+        const processedData = Array.from(groupedData, ([make, avgMPG]) => ({make, avgMPG}))
+            .sort((a, b) => b.avgMPG - a.avgMPG)
+            .slice(0, 10);
 
-    const table = scene.append("table").attr("class", "sample-table");
-    const thead = table.append("thead");
-    const tbody = table.append("tbody");
+        const x = d3.scaleBand()
+            .range([0, width])
+            .padding(0.1);
 
-    // Append table headers
-    thead.append("tr")
-        .selectAll("th")
-        .data(Object.keys(sampleData[0]))
-        .enter()
-        .append("th")
-        .text(d => d);
+        const y = d3.scaleLinear()
+            .range([height, 0]);
 
-    // Append table rows
-    const rows = tbody.selectAll("tr")
-        .data(sampleData)
-        .enter()
-        .append("tr");
+        x.domain(processedData.map(d => d.make));
+        y.domain([0, d3.max(processedData, d => d.avgMPG)]);
 
-    // Append table cells
-    rows.selectAll("td")
-        .data(d => Object.values(d))
-        .enter()
-        .append("td")
-        .text(d => d);
+        svg.selectAll(".bar")
+            .data(processedData)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", d => x(d.make))
+            .attr("width", x.bandwidth())
+            .attr("y", d => y(d.avgMPG))
+            .attr("height", d => height - y(d.avgMPG));
 
-    console.log("Scene 1 Data:", data);
+        svg.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+            .attr("transform", "rotate(-45)")
+            .style("text-anchor", "end");
+
+        svg.append("g")
+            .call(d3.axisLeft(y));
+
+        svg.append("text")
+            .attr("class", "axis-label")
+            .attr("text-anchor", "middle")
+            .attr("x", width / 2)
+            .attr("y", height + margin.bottom - 5)
+            .text("Car Make");
+
+        svg.append("text")
+            .attr("class", "axis-label")
+            .attr("text-anchor", "middle")
+            .attr("transform", "rotate(-90)")
+            .attr("x", -height / 2)
+            .attr("y", -margin.left + 20)
+            .text("Average Highway MPG");
+
+        svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", -20)
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("font-weight", "bold")
+            .text("Top 10 Car Makes by Average Highway MPG");
+
+        // Annotation
+        svg.append("text")
+            .attr("class", "annotation")
+            .attr("x", x("Tesla") + x.bandwidth() / 2)
+            .attr("y", y(98) - 10)
+            .attr("text-anchor", "middle")
+            .text("Tesla leads in Highway MPG");
+
+        svg.append("line")
+            .attr("x1", x("Tesla") + x.bandwidth() / 2)
+            .attr("y1", y(98) - 5)
+            .attr("x2", x("Tesla") + x.bandwidth() / 2)
+            .attr("y2", y(98))
+            .attr("stroke", "black")
+            .attr("stroke-width", 1);
+    });
 }

@@ -1,59 +1,41 @@
+// scripts/main.js
 let currentScene = 1;
-let globalData = null;
+const totalScenes = 3;
 
-d3.csv('data/cars2017.csv').then(data => {
-    // Parse data
-    data.forEach(d => {
-        d.MPG = +d.MPG;
-        d.Horsepower = +d.Horsepower;
-        d.Price = +d.Price;
-    });
+function updateNavigation() {
+    document.getElementById('prev-btn').disabled = currentScene === 1;
+    document.getElementById('next-btn').disabled = currentScene === totalScenes;
+}
 
-    globalData = data;
-
-    // Show the initial scene
-    showScene(currentScene, data);
-});
-
-function showScene(sceneNumber, data) {
-    d3.selectAll('.scene').style('display', 'none');
-    const currentSceneElement = d3.select(`#scene${sceneNumber}`).style('display', 'block');
-
+function loadScene(sceneNumber) {
+    d3.select("#scene-container").html("");
     switch(sceneNumber) {
         case 1:
-            createScene1(data);
+            createScene1();
             break;
         case 2:
-            createScene2(data);
+            createScene2();
             break;
         case 3:
-            createScene3(data);
+            createScene3();
             break;
     }
-
-    if (sceneNumber === 1) {
-        d3.select('#prevButton').attr('disabled', true);
-    } else {
-        d3.select('#prevButton').attr('disabled', null);
-    }
-
-    if (sceneNumber === 3) {
-        d3.select('#nextButton').attr('disabled', true);
-    } else {
-        d3.select('#nextButton').attr('disabled', null);
-    }
+    updateNavigation();
 }
 
-function nextScene() {
-    if (currentScene < 3) {
-        currentScene++;
-        showScene(currentScene, globalData);
-    }
-}
-
-function prevScene() {
+document.getElementById('prev-btn').addEventListener('click', () => {
     if (currentScene > 1) {
         currentScene--;
-        showScene(currentScene, globalData);
+        loadScene(currentScene);
     }
-}
+});
+
+document.getElementById('next-btn').addEventListener('click', () => {
+    if (currentScene < totalScenes) {
+        currentScene++;
+        loadScene(currentScene);
+    }
+});
+
+// Initial load
+loadScene(currentScene);
