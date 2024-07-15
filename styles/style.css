@@ -25,3 +25,20 @@ button {
     font-size: 16px;
     cursor: pointer;
 }
+
+.sample-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.sample-table th,
+.sample-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.sample-table th {
+    background-color: #f2f2f2;
+}
