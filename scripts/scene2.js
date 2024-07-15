@@ -11,6 +11,18 @@ function createScene2() {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
+    // Create a tooltip div
+    const tooltip = d3.select("#scene-container")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0)
+        .style("position", "absolute")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "1px")
+        .style("border-radius", "5px")
+        .style("padding", "10px");
+
     d3.csv("data/cars2017.csv").then(function(data) {
         const fuelTypes = Array.from(new Set(data.map(d => d.Fuel)));
         const colorScale = d3.scaleOrdinal()
@@ -33,7 +45,20 @@ function createScene2() {
             .attr("r", 5)
             .attr("cx", d => x(+d.AverageHighwayMPG))
             .attr("cy", d => y(+d.AverageCityMPG))
-            .style("fill", d => colorScale(d.Fuel));
+            .style("fill", d => colorScale(d.Fuel))
+            .on("mouseover", function(event, d) {
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                tooltip.html(`Make: ${d.Make}<br>Model: ${d.Model}<br>Fuel: ${d.Fuel}<br>Highway MPG: ${d.AverageHighwayMPG}<br>City MPG: ${d.AverageCityMPG}`)
+                    .style("left", (event.pageX + 5) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", function(d) {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
 
         svg.append("g")
             .attr("transform", `translate(0,${height})`)
