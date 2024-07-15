@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Narrative Visualization</title>
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
     <div id="container">
         <h1>2017 Cars Dataset Narrative Visualization</h1>
         <div id="scene1" class="scene"></div>
-        <div id="scene2" class="scene"></div>
-        <div id="scene3" class="scene"></div>
+        <div id="scene2" class="scene" style="display: none;"></div>
+        <div id="scene3" class="scene" style="display: none;"></div>
+        <div class="navigation">
+            <button id="prevButton" onclick="prevScene()" disabled>Previous</button>
+            <button id="nextButton" onclick="nextScene()">Next</button>
+        </div>
     </div>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="scripts/scene1.js"></script>

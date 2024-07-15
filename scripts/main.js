@@ -1,4 +1,5 @@
-// Load the data and create the visualizations
+let currentScene = 1;
+
 d3.csv('cars2017.csv').then(data => {
     // Parse data
     data.forEach(d => {
@@ -7,12 +8,41 @@ d3.csv('cars2017.csv').then(data => {
         d.Price = +d.Price;
     });
 
-    // Scene 1: Introduction to the Dataset
+    // Initialize scenes
     createScene1(data);
-
-    // Scene 2: Highlighting Key Insights
     createScene2(data);
-
-    // Scene 3: User Exploration
     createScene3(data);
 });
+
+function showScene(sceneNumber) {
+    d3.selectAll('.scene').style('display', 'none');
+    d3.select(`#scene${sceneNumber}`).style('display', 'block');
+
+    if (sceneNumber === 1) {
+        d3.select('#prevButton').attr('disabled', true);
+    } else {
+        d3.select('#prevButton').attr('disabled', null);
+    }
+
+    if (sceneNumber === 3) {
+        d3.select('#nextButton').attr('disabled', true);
+    } else {
+        d3.select('#nextButton').attr('disabled', null);
+    }
+}
+
+function nextScene() {
+    if (currentScene < 3) {
+        currentScene++;
+        showScene(currentScene);
+    }
+}
+
+function prevScene() {
+    if (currentScene > 1) {
+        currentScene--;
+        showScene(currentScene);
+    }
+}
+
+showScene(currentScene);
