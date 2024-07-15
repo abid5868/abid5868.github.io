@@ -1,7 +1,7 @@
 let currentScene = 1;
 let globalData = null;
 
-d3.csv('cars2017.csv').then(data => {
+d3.csv('data/cars2017.csv').then(data => {
     // Parse data
     data.forEach(d => {
         d.MPG = +d.MPG;
