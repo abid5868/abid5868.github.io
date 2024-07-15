@@ -2,24 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Narrative Visualization</title>
-    <link rel="stylesheet" href="styles/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Data Sample</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <div id="container">
-        <h1>2017 Cars Dataset Narrative Visualization</h1>
-        <div id="scene1" class="scene"></div>
-        <div id="scene2" class="scene" style="display: none;"></div>
-        <div id="scene3" class="scene" style="display: none;"></div>
-        <div class="navigation">
-            <button id="prevButton" onclick="prevScene()" disabled>Previous</button>
-            <button id="nextButton" onclick="nextScene()">Next</button>
-        </div>
-    </div>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="scripts/scene1.js"></script>
-    <script src="scripts/scene2.js"></script>
-    <script src="scripts/scene3.js"></script>
-    <script src="scripts/main.js"></script>
+    <h1>Car Data Sample</h1>
+    <div id="data-container"></div>
+    <script>
+        // Parse the CSV data
+        const csvData = `Make,Fuel,EngineCylinders,AverageHighwayMPG,AverageCityMPG
+Acura,Gasoline,4,35,25
+Acura,Gasoline,6,28,21
+Alfa Romeo,Gasoline,4,33,24
+Alfa Romeo,Gasoline,6,24,17
+Aston Martin,Gasoline,12,19,12`;
+
+        // Parse the CSV data
+        const data = d3.csvParse(csvData);
+
+        // Create a table
+        const table = d3.select("#data-container")
+            .append("table");
+
+        // Add table header
+        table.append("thead")
+            .append("tr")
+            .selectAll("th")
+            .data(Object.keys(data[0]))
+            .enter()
+            .append("th")
+            .text(d => d);
+
+        // Add table body
+        table.append("tbody")
+            .selectAll("tr")
+            .data(data)
+            .enter()
+            .append("tr")
+            .selectAll("td")
+            .data(d => Object.values(d))
+            .enter()
+            .append("td")
+            .text(d => d);
+    </script>
 </body>
 </html>
