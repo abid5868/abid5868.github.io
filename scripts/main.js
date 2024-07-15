@@ -1,4 +1,5 @@
 let currentScene = 1;
+let globalData = null;
 
 d3.csv('cars2017.csv').then(data => {
     // Parse data
@@ -8,13 +9,15 @@ d3.csv('cars2017.csv').then(data => {
         d.Price = +d.Price;
     });
 
+    globalData = data;
+
     // Show the initial scene
     showScene(currentScene, data);
 });
 
 function showScene(sceneNumber, data) {
     d3.selectAll('.scene').style('display', 'none');
-    const currentScene = d3.select(`#scene${sceneNumber}`).style('display', 'block');
+    const currentSceneElement = d3.select(`#scene${sceneNumber}`).style('display', 'block');
 
     switch(sceneNumber) {
         case 1:
@@ -44,13 +47,13 @@ function showScene(sceneNumber, data) {
 function nextScene() {
     if (currentScene < 3) {
         currentScene++;
-        showScene(currentScene, d3.select('#scene1').datum());
+        showScene(currentScene, globalData);
     }
 }
 
 function prevScene() {
     if (currentScene > 1) {
         currentScene--;
-        showScene(currentScene, d3.select('#scene1').datum());
+        showScene(currentScene, globalData);
     }
 }

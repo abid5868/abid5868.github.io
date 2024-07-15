@@ -31,4 +31,6 @@ function createScene2(data) {
         .attr("x", (x(bins[0].x1) - x(bins[0].x0)) / 2)
         .attr("text-anchor", "middle")
         .text(d => d.length);
+
+    console.log("Scene 2 Data:", data);
 }

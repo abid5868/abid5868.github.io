@@ -27,4 +27,6 @@ function createScene3(data) {
         .on("mouseout", () => {
             svg.select("#tooltip").remove();
         });
+
+    console.log("Scene 3 Data:", data);
 }
