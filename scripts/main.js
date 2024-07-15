@@ -8,15 +8,25 @@ d3.csv('cars2017.csv').then(data => {
         d.Price = +d.Price;
     });
 
-    // Initialize scenes
-    createScene1(data);
-    createScene2(data);
-    createScene3(data);
+    // Show the initial scene
+    showScene(currentScene, data);
 });
 
-function showScene(sceneNumber) {
+function showScene(sceneNumber, data) {
     d3.selectAll('.scene').style('display', 'none');
-    d3.select(`#scene${sceneNumber}`).style('display', 'block');
+    const currentScene = d3.select(`#scene${sceneNumber}`).style('display', 'block');
+
+    switch(sceneNumber) {
+        case 1:
+            createScene1(data);
+            break;
+        case 2:
+            createScene2(data);
+            break;
+        case 3:
+            createScene3(data);
+            break;
+    }
 
     if (sceneNumber === 1) {
         d3.select('#prevButton').attr('disabled', true);
@@ -34,15 +44,13 @@ function showScene(sceneNumber) {
 function nextScene() {
     if (currentScene < 3) {
         currentScene++;
-        showScene(currentScene);
+        showScene(currentScene, d3.select('#scene1').datum());
     }
 }
 
 function prevScene() {
     if (currentScene > 1) {
         currentScene--;
-        showScene(currentScene);
+        showScene(currentScene, d3.select('#scene1').datum());
     }
 }
-
-showScene(currentScene);

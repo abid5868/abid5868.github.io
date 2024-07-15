@@ -1,5 +1,6 @@
 function createScene1(data) {
     const scene = d3.select("#scene1");
+    scene.html(""); // Clear previous content
 
     scene.append("h2").text("Introduction to the Dataset");
 
