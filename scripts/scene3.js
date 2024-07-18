@@ -1,5 +1,4 @@
-// scripts/scene3.js
-function createScene3() {
+function createScene3(width, height, margin) {
     const svg = d3.select("#scene-container")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -66,22 +65,5 @@ function createScene3() {
             .style("font-size", "20px")
             .style("font-weight", "bold")
             .text("Average Highway MPG by Number of Engine Cylinders");
-    
-
-        // Annotation
-        svg.append("text")
-            .attr("class", "annotation")
-            .attr("x", x("4") + x.bandwidth() / 2)
-            .attr("y", y(32) - 10)
-            .attr("text-anchor", "middle")
-            .text("4-cylinder engines are most efficient");
-
-        svg.append("line")
-            .attr("x1", x("4") + x.bandwidth() / 2)
-            .attr("y1", y(32) - 5)
-            .attr("x2", x("4") + x.bandwidth() / 2)
-            .attr("y2", y(32))
-            .attr("stroke", "black")
-            .attr("stroke-width", 1);
     });
 }

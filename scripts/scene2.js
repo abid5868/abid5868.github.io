@@ -86,13 +86,15 @@ function createScene2(width, height, margin) {
             .attr("transform", (d, i) => `translate(${width + 20},${i * 25})`)
             .style("cursor", "pointer")
             .on("click", function(event, d) {
-                const isActive = !d3.select(this).classed("inactive");
-                d3.select(this).classed("inactive", isActive);
-                dots.filter(dot => dot.Fuel === d)
-                    .transition()
-                    .duration(100)
-                    .style("opacity", isActive ? 0.2 : 1)
-                    .style("r", isActive ? 3 : 5);
+                const isActive = !d3.select(this).classed("active");
+                legend.classed("active", false);
+                d3.select(this).classed("active", isActive);
+                
+                if (isActive) {
+                    dots.style("opacity", dot => dot.Fuel === d ? 1 : 0.1);
+                } else {
+                    dots.style("opacity", 1);
+                }
             });
 
         legend.append("rect")
@@ -106,21 +108,5 @@ function createScene2(width, height, margin) {
             .attr("dy", ".35em")
             .style("text-anchor", "start")
             .text(d => d);
-
-        // Annotation
-        svg.append("text")
-            .attr("class", "annotation")
-            .attr("x", x(110))
-            .attr("y", y(130) - 10)
-            .attr("text-anchor", "middle")
-            .text("Electric cars have highest efficiency");
-
-        svg.append("line")
-            .attr("x1", x(110))
-            .attr("y1", y(130) - 5)
-            .attr("x2", x(110))
-            .attr("y2", y(130))
-            .attr("stroke", "black")
-            .attr("stroke-width", 1);
     });
 }

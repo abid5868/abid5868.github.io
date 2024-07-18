@@ -79,3 +79,12 @@ button:disabled {
 .legend.inactive text {
     opacity: 0.4;
 }
+.legend.active rect {
+    stroke: #000;
+    stroke-width: 2px;
+}
+
+.legend.active text {
+    font-weight: bold;
+}
+
