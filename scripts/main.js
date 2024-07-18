@@ -1,17 +1,16 @@
-// scripts/main.js
-let currentScene = 1;
-const totalScenes = 3;
+let currentPage = 1;
+const totalPages = 3;
 
 const margin = {top: 60, right: 30, bottom: 80, left: 70};
 const width = 900 - margin.left - margin.right;
 const height = 500 - margin.top - margin.bottom;
 
 function updateNavigation() {
-    document.getElementById('prev-btn').disabled = currentScene === 1;
-    document.getElementById('next-btn').disabled = currentScene === totalScenes;
+    document.getElementById('prev-button').disabled = currentPage === 1;
+    document.getElementById('next-button').disabled = currentPage === totalPages;
 }
 
-function loadScene(sceneNumber) {
+function loadCurrentScene(sceneNumber) {
     d3.select("#scene-container").html("");
     switch(sceneNumber) {
         case 1:
@@ -27,19 +26,19 @@ function loadScene(sceneNumber) {
     updateNavigation();
 }
 
-document.getElementById('prev-btn').addEventListener('click', () => {
-    if (currentScene > 1) {
-        currentScene--;
-        loadScene(currentScene);
+document.getElementById('prev-button').addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage--;
+        loadCurrentScene(currentPage);
     }
 });
 
-document.getElementById('next-btn').addEventListener('click', () => {
-    if (currentScene < totalScenes) {
-        currentScene++;
-        loadScene(currentScene);
+document.getElementById('next-button').addEventListener('click', () => {
+    if (currentPage < totalPages) {
+        currentPage++;
+        loadCurrentScene(currentPage);
     }
 });
 
 // Initial load
-loadScene(currentScene);
+loadCurrentScene(currentPage);
