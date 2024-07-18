@@ -1,8 +1,7 @@
-// scripts/scene2.js
-function createScene2() {
+function createScene2(width, height, margin) {
     const svg = d3.select("#scene-container")
         .append("svg")
-        .attr("width", width + margin.left + margin.right)
+        .attr("width", width + margin.left + margin.right + 150)  // Extra space for legend
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
@@ -27,7 +26,7 @@ function createScene2() {
         x.domain([0, d3.max(data, d => +d.AverageHighwayMPG)]);
         y.domain([0, d3.max(data, d => +d.AverageCityMPG)]);
 
-        svg.selectAll(".dot")
+        const dots = svg.selectAll(".dot")
             .data(data)
             .enter().append("circle")
             .attr("class", "dot")
@@ -71,7 +70,7 @@ function createScene2() {
             .attr("y", -margin.left + 20)
             .text("Average City MPG");
 
-            svg.append("text")
+        svg.append("text")
             .attr("x", width / 2)
             .attr("y", -margin.top / 2)
             .attr("text-anchor", "middle")
@@ -84,19 +83,28 @@ function createScene2() {
             .data(fuelTypes)
             .enter().append("g")
             .attr("class", "legend")
-            .attr("transform", (d, i) => `translate(0,${i * 20})`);
+            .attr("transform", (d, i) => `translate(${width + 20},${i * 25})`)
+            .style("cursor", "pointer")
+            .on("click", function(event, d) {
+                const isActive = !d3.select(this).classed("inactive");
+                d3.select(this).classed("inactive", isActive);
+                dots.filter(dot => dot.Fuel === d)
+                    .transition()
+                    .duration(100)
+                    .style("opacity", isActive ? 0.2 : 1)
+                    .style("r", isActive ? 3 : 5);
+            });
 
         legend.append("rect")
-            .attr("x", width - 18)
             .attr("width", 18)
             .attr("height", 18)
             .style("fill", colorScale);
 
         legend.append("text")
-            .attr("x", width - 24)
+            .attr("x", 24)
             .attr("y", 9)
             .attr("dy", ".35em")
-            .style("text-anchor", "end")
+            .style("text-anchor", "start")
             .text(d => d);
 
         // Annotation

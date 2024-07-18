@@ -72,3 +72,10 @@ button:disabled {
     pointer-events: none;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
+.legend.inactive rect {
+    opacity: 0.4;
+}
+
+.legend.inactive text {
+    opacity: 0.4;
+}
