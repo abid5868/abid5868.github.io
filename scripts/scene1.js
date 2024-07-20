@@ -1,4 +1,5 @@
-// scripts/scene1.js
+// Chart 1
+
 function createScene1() {
     const svg = d3.select("#scene-container")
         .append("svg")
@@ -68,7 +69,7 @@ function createScene1() {
             .style("font-size", "20px")
             .style("font-weight", "bold")
             .text("Top 10 Car Makes by Average Highway MPG");
-            
+
         // Annotation
         svg.append("text")
             .attr("class", "annotation")

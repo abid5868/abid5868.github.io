@@ -1,3 +1,5 @@
+// Chart 2
+
 function createScene2(width, height, margin) {
     const svg = d3.select("#scene-container")
         .append("svg")

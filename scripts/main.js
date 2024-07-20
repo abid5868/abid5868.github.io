@@ -10,7 +10,7 @@ function updateNavigation() {
     document.getElementById('next-button').disabled = currentPage === totalPages;
 }
 
-function loadCurrentScene(sceneNumber) {
+function loadCurrentPage(sceneNumber) {
     d3.select("#scene-container").html("");
     switch(sceneNumber) {
         case 1:
@@ -29,16 +29,16 @@ function loadCurrentScene(sceneNumber) {
 document.getElementById('prev-button').addEventListener('click', () => {
     if (currentPage > 1) {
         currentPage--;
-        loadCurrentScene(currentPage);
+        loadCurrentPage(currentPage);
     }
 });
 
 document.getElementById('next-button').addEventListener('click', () => {
     if (currentPage < totalPages) {
         currentPage++;
-        loadCurrentScene(currentPage);
+        loadCurrentPage(currentPage);
     }
 });
 
 // Initial load
-loadCurrentScene(currentPage);
+loadCurrentPage(currentPage);
