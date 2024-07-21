@@ -1,9 +1,11 @@
-let currentPage = 1;
-const totalPages = 3;
+// Main script
 
 const margin = {top: 60, right: 30, bottom: 80, left: 70};
 const width = 900 - margin.left - margin.right;
 const height = 500 - margin.top - margin.bottom;
+
+let currentPage = 1;
+const totalPages = 3;
 
 function updateNavigation() {
     document.getElementById('prev-button').disabled = currentPage === 1;
@@ -40,5 +42,4 @@ document.getElementById('next-button').addEventListener('click', () => {
     }
 });
 
-// Initial load
-loadCurrentPage(currentPage);
+loadCurrentPage(currentPage); // Initially load first scene

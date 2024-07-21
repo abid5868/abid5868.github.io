@@ -1,4 +1,4 @@
-// Chart 1
+// Script for scene one
 
 function createScene1() {
     const svg = d3.select("#scene-container")
