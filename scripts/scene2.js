@@ -82,7 +82,7 @@ function createScene2(width, height, margin) {
             .style("font-weight", "bold")
             .text("City vs Highway MPG by Fuel Type");
 
-        // // legend of fule types
+        // legend of fuel types
         const fuelLegend = svg.selectAll(".legend")
             .data(fuelTypes)
             .enter().append("g")
