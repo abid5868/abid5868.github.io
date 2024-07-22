@@ -16,7 +16,7 @@ function createScene3(width, height, margin) {
             d => +d.EngineCylinders
         );
 
-        const processedData = Array.from(groupedData, ([cylinders, avgMPG]) => ({cylinders, avgMPG}))
+        const groupedandsortedData = Array.from(groupedData, ([cylinders, avgMPG]) => ({cylinders, avgMPG}))
             .sort((a, b) => a.cylinders - b.cylinders);
 
         const x = d3.scaleBand()
@@ -27,10 +27,10 @@ function createScene3(width, height, margin) {
             .range([height, 0]);
 
         x.domain(cylinderCounts.map(String));
-        y.domain([0, d3.max(processedData, d => d.avgMPG)]);
+        y.domain([0, d3.max(groupedandsortedData, d => d.avgMPG)]);
 
         svg.selectAll(".bar")
-            .data(processedData)
+            .data(groupedandsortedData)
             .enter().append("rect")
             .attr("class", "bar")
             .attr("x", d => x(String(d.cylinders)))

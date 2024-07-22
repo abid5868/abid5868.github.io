@@ -14,11 +14,13 @@ function createScene2(width, height, margin) {
         .style("opacity", 0);
 
     d3.csv("data/cars2017.csv").then(function(data) {
+        // color scale for different fuel type
         const fuelTypes = Array.from(new Set(data.map(d => d.Fuel)));
         const colorScale = d3.scaleOrdinal()
             .domain(fuelTypes)
             .range(d3.schemeCategory10);
 
+        // setup x and y scale
         const x = d3.scaleLinear()
             .range([0, width]);
 
@@ -80,8 +82,8 @@ function createScene2(width, height, margin) {
             .style("font-weight", "bold")
             .text("City vs Highway MPG by Fuel Type");
 
-        // Legend
-        const legend = svg.selectAll(".legend")
+        // // legend of fule types
+        const fuelLegend = svg.selectAll(".legend")
             .data(fuelTypes)
             .enter().append("g")
             .attr("class", "legend")
@@ -89,7 +91,7 @@ function createScene2(width, height, margin) {
             .style("cursor", "pointer")
             .on("click", function(event, d) {
                 const isActive = !d3.select(this).classed("active");
-                legend.classed("active", false);
+                fuelLegend.classed("active", false);
                 d3.select(this).classed("active", isActive);
                 
                 if (isActive) {
@@ -99,12 +101,12 @@ function createScene2(width, height, margin) {
                 }
             });
 
-        legend.append("rect")
+        fuelLegend.append("rect")
             .attr("width", 18)
             .attr("height", 18)
             .style("fill", colorScale);
 
-        legend.append("text")
+        fuelLegend.append("text")
             .attr("x", 24)
             .attr("y", 9)
             .attr("dy", ".35em")

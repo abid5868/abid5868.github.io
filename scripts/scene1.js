@@ -9,12 +9,12 @@ function createScene1() {
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
     d3.csv("data/cars2017.csv").then(function(data) {
-        const groupedData = d3.rollup(data, 
+        const groupedbyMakeData = d3.rollup(data, 
             v => d3.mean(v, d => +d.AverageHighwayMPG),
             d => d.Make
         );
 
-        const processedData = Array.from(groupedData, ([make, avgMPG]) => ({make, avgMPG}))
+        const groupedandsortedData = Array.from(groupedbyMakeData, ([make, avgMPG]) => ({make, avgMPG}))
             .sort((a, b) => b.avgMPG - a.avgMPG)
             .slice(0, 10);
 
@@ -25,11 +25,11 @@ function createScene1() {
         const y = d3.scaleLinear()
             .range([height, 0]);
 
-        x.domain(processedData.map(d => d.make));
-        y.domain([0, d3.max(processedData, d => d.avgMPG)]);
+        x.domain(groupedandsortedData.map(d => d.make));
+        y.domain([0, d3.max(groupedandsortedData, d => d.avgMPG)]);
 
         svg.selectAll(".bar")
-            .data(processedData)
+            .data(groupedandsortedData)
             .enter().append("rect")
             .attr("class", "bar")
             .attr("x", d => x(d.make))
